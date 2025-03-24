@@ -40,17 +40,6 @@ export class ApiService {
         return TYPES[id as QuizTypeId];
     }
 
-    getQuestions(params: {
-        amount?: number;
-        category?: number;
-        difficulty?: QuizDifficultyId;
-        type?: QuizTypeId;
-    }): Observable<KnownQuestion[]> {
-        return this.http
-            .get<ApiGenerateResponse>(`${this.baseUrl}/api.php`, { params })
-            .pipe(map((res) => res.results));
-    }
-
     getAllOptions(): Observable<AllOptions> {
         // if we later need to wait for multiple observables:
         // return forkJoin([categories$, additionalData$]).pipe(map(([categories, additionalData]) => ({ ... }));
@@ -62,6 +51,21 @@ export class ApiService {
             })),
         );
     }
+
+    getQuestions(params: Params): Observable<KnownQuestion[]> {
+        return this.http
+            .get<ApiGenerateResponse>(`${this.baseUrl}/api.php`, {
+                params: params as Record<string, any>,
+            })
+            .pipe(map((res) => res.results));
+    }
+}
+
+export interface Params {
+    amount?: number;
+    category?: number;
+    difficulty?: QuizDifficultyId;
+    type?: QuizTypeId;
 }
 
 export interface AllOptions {
