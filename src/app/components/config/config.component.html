@@ -1,87 +1,107 @@
-<div class="mx-auto max-w-md rounded bg-white p-4 shadow">
-	<h2 class="mb-4 text-2xl font-bold">Configuration du Quiz</h2>
-
-	<form (ngSubmit)="onSubmit()">
-		<div class="mb-3">
-			<label class="block font-semibold" for="lastName">Lastname</label>
-			<input
-				id="title"
-				type="text"
-				[(ngModel)]="lastName"
-				name="lastName"
-				required
-				class="w-full rounded border px-3 py-2"
-			/>
-		</div>
-
-		<div class="mb-3">
-			<label class="block font-semibold" for="firstName">Firstname</label>
-			<input
-				id="title"
-				type="text"
-				[(ngModel)]="firstName"
-				name="firstName"
-				required
-				class="w-full rounded border px-3 py-2"
-			/>
-		</div>
-
-		<div class="mb-3">
-			<label class="block font-semibold" for="quantity">Number of questions</label>
-			<input
-				id="title"
-				type="number"
-				[(ngModel)]="config.quantity"
-				name="quantity"
-				required
-				class="w-full rounded border px-3 py-2"
-			/>
-		</div>
-
-		<div class="mb-3">
-			<label class="block font-semibold" for="difficulty">Difficulty</label>
-			<select
-				id="difficulty"
-				[(ngModel)]="config.difficulty"
-				name="difficulty"
-				class="w-full rounded border px-3 py-2"
-			>
-				<option *ngFor="let difficulty of difficulties" [value]="difficulty.id">
-					{{ difficulty.name }}
-				</option>
-			</select>
-		</div>
-
-		<div class="mb-3">
-			<label class="block font-semibold" for="category">Category</label>
-			<select
-				id="difficulty"
-				[(ngModel)]="config.category"
-				name="category"
-				class="w-full rounded border px-3 py-2"
-			>
-				<option *ngFor="let category of categories" [value]="category.id">
-					{{ category.name }}
-				</option>
-			</select>
-		</div>
-
-		<div class="mb-3">
-			<label class="block font-semibold">Questions type</label>
-			<div class="flex gap-4">
-				<label *ngFor="let type of types" class="flex items-center">
-					<input
-						type="radio"
-						[(ngModel)]="config.type"
-						name="type"
-						[value]="type.id"
-						class="mr-2"
-					/>
-					{{ type.name }}
-				</label>
-			</div>
-		</div>
-
-		<button type="submit" class="w-full rounded bg-blue-600 py-2 text-white">Démarrer</button>
-	</form>
+<div class="flex items-center justify-center min-h-screen">
+    <div class="mx-auto max-w-md rounded bg-white p-4 shadow">
+        <h2 class="mb-4 text-2xl font-bold">Configuration du Quiz</h2>
+    
+        <form (ngSubmit)="onSubmit()" #quizForm="ngForm">
+        <div class="mb-3">
+            <label class="block font-semibold" for="lastName">Lastname</label>
+            <input
+            id="lastName"
+            type="text"
+            [(ngModel)]="lastName"
+            name="lastName"
+            required
+            #lastNameInput="ngModel"
+            class="w-full rounded border px-3 py-2"
+            [class.border-red-500]="lastNameInput.invalid && lastNameInput.touched"
+            />
+            <div *ngIf="lastNameInput.invalid && lastNameInput.touched" class="text-red-500 text-sm">
+            Le nom est requis.
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <label class="block font-semibold" for="firstName">Firstname</label>
+            <input
+            id="firstName"
+            type="text"
+            [(ngModel)]="firstName"
+            name="firstName"
+            required
+            #firstNameInput="ngModel"
+            class="w-full rounded border px-3 py-2"
+            [class.border-red-500]="firstNameInput.invalid && firstNameInput.touched"
+            />
+            <div *ngIf="firstNameInput.invalid && firstNameInput.touched" class="text-red-500 text-sm">
+            Le prénom est requis.
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <label class="block font-semibold" for="quantity">Number of questions</label>
+            <input
+            id="quantity"
+            type="number"
+            [(ngModel)]="config.quantity"
+            name="quantity"
+            required
+            class="w-full rounded border px-3 py-2"
+            />
+        </div>
+    
+        <div class="mb-3">
+            <label class="block font-semibold" for="difficulty">Difficulty</label>
+            <select
+            id="difficulty"
+            [(ngModel)]="config.difficulty"
+            name="difficulty"
+            class="w-full rounded border px-3 py-2"
+            >
+            <option *ngFor="let difficulty of difficulties" [value]="difficulty.id">
+                {{ difficulty.name }}
+            </option>
+            </select>
+        </div>
+    
+        <div class="mb-3">
+            <label class="block font-semibold" for="category">Category</label>
+            <select
+            id="category"
+            [(ngModel)]="config.category"
+            name="category"
+            class="w-full rounded border px-3 py-2"
+            >
+            <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+            </option>
+            </select>
+        </div>
+    
+        <div class="mb-3">
+            <label class="block font-semibold">Questions type</label>
+            <div class="flex gap-4">
+            <label *ngFor="let type of types" class="flex items-center">
+                <input
+                type="radio"
+                [(ngModel)]="config.type"
+                name="type"
+                [value]="type.id"
+                class="mr-2"
+                />
+                {{ type.name }}
+            </label>
+            </div>
+            </div>
+    
+            <button
+                type="submit"
+                class="w-full rounded bg-blue-600 py-2 text-white"
+                [disabled]="quizForm.invalid"
+            >
+                Démarrer
+            </button>
+        </form>
+    </div>    
 </div>
+
+  

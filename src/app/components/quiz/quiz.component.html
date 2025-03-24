@@ -1,35 +1,40 @@
-<div *ngIf="quizService.isLoading(); else quizContent">
-    <p class="text-center text-lg font-semibold">Chargement des questions...</p>
-</div>
-
-<ng-template #quizContent>
-    <div class="p-4 max-w-lg mx-auto bg-white shadow rounded">
-        <p class="text-lg font-semibold mb-2">
-            Question {{ quizService.currentQuestionIndex() + 1 }} / {{ quizService.questions()?.length }}
-        </p>
-        
-        <div *ngIf="quizService.currentQuestion() as question">
-            <h2 class="text-lg font-semibold">{{ question.question }}</h2>
-  
-            <div class="flex flex-col gap-2 mt-4">
-              <label 
-                *ngFor="let answer of question.incorrect_answers.concat(question.correct_answer).sort()" 
-                class="flex items-center p-2 border rounded cursor-pointer"
-                [class.bg-green-300]="isAnswered && answer === question.correct_answer"
-                [class.bg-red-300]="isAnswered && answer !== question.correct_answer"
-              >
-                <input 
-                  type="radio" 
-                  [value]="answer" 
-                  [(ngModel)]="selectedAnswer"
-                  [disabled]="isAnswered" 
-                />
-                {{ answer }}
-              </label>
-            </div>
-  
-            <button *ngIf="!isAnswered" (click)="onSubmit()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Valider</button>
-            <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Suivant</button>
-        </div>
+<div class="flex items-center justify-center min-h-screen">
+    <div *ngIf="quizService.isLoading(); else quizContent">
+        <p class="text-center text-lg font-semibold">Chargement des questions...</p>
     </div>
-  </ng-template>
+
+    <ng-template #quizContent>
+        <div class="p-4 max-w-lg mx-auto bg-white shadow rounded bg-gray-200">
+            <p class="text-lg font-semibold mb-2">
+                Question {{ quizService.currentQuestionIndex() + 1 }} / {{ quizService.questions()?.length }}
+            </p>
+            
+            <div *ngIf="quizService.currentQuestion() as question">
+                <h2 class="text-lg font-semibold">{{ question.question }}</h2>
+    
+                <div class="flex flex-col gap-2 mt-4">
+                <label 
+                    *ngFor="let answer of question.incorrect_answers.concat(question.correct_answer).sort()" 
+                    class="flex items-center p-2 border rounded cursor-pointer"
+                    [class.bg-green-300]="isAnswered && answer === question.correct_answer"
+                    [class.bg-red-300]="isAnswered && answer !== question.correct_answer"
+                >
+                    <input 
+                    type="radio" 
+                    [value]="answer" 
+                    [(ngModel)]="selectedAnswer"
+                    [disabled]="isAnswered" 
+                    class="mr-5"
+                    />
+                    {{ answer }}
+                </label>
+                </div>
+                
+                <div class="flex justify-center items-center">
+                    <button *ngIf="!isAnswered" (click)="onSubmit()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Valider</button>
+                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Suivant</button>                    
+                </div>
+            </div>
+        </div>
+    </ng-template>    
+</div>
