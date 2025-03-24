@@ -48,7 +48,7 @@ export class CurrentQuizService {
 
     finished() {
         const questions = this._questions();
-        return questions != null && this._currentQuestionIndex() > questions.length;
+        return questions != null && this._currentQuestionIndex() >= questions.length;
     }
 
     currentQuestion() {

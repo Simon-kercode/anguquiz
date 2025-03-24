@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CurrentQuizService } from '../../service/current-quiz.service';
 import { KnownQuestion } from '../../model/question';
 import { FormsModule } from '@angular/forms';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-quiz',
@@ -14,7 +15,10 @@ import { FormsModule } from '@angular/forms';
 export class QuizComponent implements OnInit {
   selectedAnswer: string | null = null;
 
-  constructor(public quizService: CurrentQuizService) {}
+  constructor(
+    public quizService: CurrentQuizService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     if (!this.quizService.questions()) {
@@ -32,5 +36,9 @@ export class QuizComponent implements OnInit {
     }
     this.selectedAnswer = null;
     this.quizService.next();
+    
+    if (this.quizService.finished()) {
+      this.router.navigate(["results"]);
+    }
   }
 }

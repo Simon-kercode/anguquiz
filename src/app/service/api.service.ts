@@ -60,19 +60,19 @@ export class ApiService {
     getQuestions(params: Params): Observable<KnownQuestion[]> {
         const { amount, category, difficulty, type } = params;
 
-        const httpParams = new HttpParams();
+        let httpParams = new HttpParams();
 
         if (amount != null) {
-            httpParams.set("amount", amount);
+            httpParams = httpParams.set("amount", amount);
         }
         if (category != null) {
-            httpParams.set("category", category);
+            httpParams = httpParams.set("category", category);
         }
         if (difficulty != null && difficulty !== DEFAULT_DIFFICULTY) {
-            httpParams.set("difficulty", difficulty);
+            httpParams = httpParams.set("difficulty", difficulty);
         }
         if (type != null && type !== DEFAULT_TYPE) {
-            httpParams.set("type", type);
+            httpParams = httpParams.set("type", type);
         }
 
         return this.http
