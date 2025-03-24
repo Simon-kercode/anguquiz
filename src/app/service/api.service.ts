@@ -1,9 +1,14 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { QuizCategory } from "../model/category";
-import { DIFFICULTIES, QuizDifficulty, QuizDifficultyId } from "../model/difficulty";
-import { QuizType, QuizTypeId, TYPES } from "../model/type";
+import {
+    DEFAULT_DIFFICULTY,
+    DIFFICULTIES,
+    QuizDifficulty,
+    QuizDifficultyId,
+} from "../model/difficulty";
+import { DEFAULT_TYPE, QuizType, QuizTypeId, TYPES } from "../model/type";
 import { KnownQuestion } from "../model/question";
 
 @Injectable({
@@ -53,9 +58,26 @@ export class ApiService {
     }
 
     getQuestions(params: Params): Observable<KnownQuestion[]> {
+        const { amount, category, difficulty, type } = params;
+
+        const httpParams = new HttpParams();
+
+        if (amount != null) {
+            httpParams.set("amount", amount);
+        }
+        if (category != null) {
+            httpParams.set("category", category);
+        }
+        if (difficulty != null && difficulty !== DEFAULT_DIFFICULTY) {
+            httpParams.set("difficulty", difficulty);
+        }
+        if (type != null && type !== DEFAULT_TYPE) {
+            httpParams.set("type", type);
+        }
+
         return this.http
             .get<ApiGenerateResponse>(`${this.baseUrl}/api.php`, {
-                params: params as Record<string, any>,
+                params: httpParams,
             })
             .pipe(map((res) => res.results));
     }
