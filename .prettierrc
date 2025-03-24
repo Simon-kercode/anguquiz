@@ -1,0 +1,14 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "bracketSameLine": false,
+    "htmlWhitespaceSensitivity": "ignore",
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "overrides": [
+        { "files": "*.html", "options": { "useTabs": true } },
+        { "files": ["./package.json", "./angular.json", "tsconfig.json", "tsconfig.app.json", "tsconfig.spec.json"], "options": { "useTabs": true } }
+    ]
+}
