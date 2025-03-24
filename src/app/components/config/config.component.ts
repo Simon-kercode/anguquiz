@@ -3,6 +3,8 @@ import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { AllOptions } from '../../service/api.service';
+import { ProfileService } from '../../service/profile.service';
+import { Profile } from '../../model/profile';
 
 @Component({
   selector: 'app-config',
@@ -11,6 +13,8 @@ import { AllOptions } from '../../service/api.service';
   styleUrl: './config.component.css'
 })
 export class ConfigComponent implements OnInit {
+  firstName: string = '';
+  lastName: string = '';
   categories: string[] = [];
   difficulties: string[] = [];
   types: string[] = [];
@@ -19,15 +23,31 @@ export class ConfigComponent implements OnInit {
     name: null,
     firstname: null,
     quantity: 5,
-    difficulty: 'medium',
-    category: 'science',
+    difficulty: 'Medium',
+    category: 'General Knowledge',
     questionType: 'multiple'
   };
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private profileSerice: ProfileService,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit(): void {
     this.loadOptions();
+    const profile= this.profileSerice.getProfile();
+    if (profile) {
+      this.firstName = profile.firstName;
+      this.lastName = profile.lastName; 
+    }
+  }
+
+  updateProfile(): void {
+    const profile: Profile = {
+      firstName: this.firstName,
+      lastName: this.lastName
+    }
+    this.profileSerice.setProfile(profile);
   }
 
   loadOptions(): void {
@@ -44,6 +64,7 @@ export class ConfigComponent implements OnInit {
   }
 
   onSubmit() {
+    this.updateProfile()
     console.log('Configuration : ', this.config);
   }
 }
