@@ -1,0 +1,8 @@
+@if (current.questions() != null) {
+	<p>Congrats {{ profile.getProfile()?.firstName }} {{ profile.getProfile()?.lastName }}</p>
+	<p>
+		You answered {{ current.correctAnswerCount() }} correct answers out of
+		{{ current.questions()!.length }}
+	</p>
+	<button (click)="restart()">Restart</button>
+}
