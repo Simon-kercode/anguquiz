@@ -10,7 +10,7 @@ export const TYPES: Readonly<Record<QuizTypeId, Readonly<QuizType>>> = Object.fr
         const values: QuizType[] = [
             {
                 id: "any",
-                name: "Any Difficulty",
+                name: "Any Type",
             },
             {
                 id: "multiple",
