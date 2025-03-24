@@ -14,6 +14,7 @@ import { Router } from "@angular/router";
 })
 export class QuizComponent implements OnInit {
   selectedAnswer: string | null = null;
+  isAnswered: boolean = false;
 
   constructor(
     public quizService: CurrentQuizService,
@@ -27,16 +28,24 @@ export class QuizComponent implements OnInit {
   }
 
   onSelectAnswer(answer: string) {
-    this.selectedAnswer = answer;
+    if (!this.isAnswered) {
+      this.selectedAnswer = answer;
+    }
   }
 
   onSubmit() {
+    if (!this.selectedAnswer) return;
+    this.isAnswered = true;
     if (this.selectedAnswer === this.quizService.currentQuestion()?.correct_answer) {
       this.quizService.incrementCorrectAnswers();
     }
+  }
+
+  nextQuestion() {
     this.selectedAnswer = null;
+    this.isAnswered = false;
     this.quizService.next();
-    
+
     if (this.quizService.finished()) {
       this.router.navigate(["results"]);
     }
