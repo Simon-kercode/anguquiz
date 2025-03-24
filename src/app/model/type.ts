@@ -32,4 +32,4 @@ export const TYPES: Readonly<Record<QuizTypeId, Readonly<QuizType>>> = Object.fr
     })(),
 );
 
-export const DEFAULT_DIFFICULTY = "any" satisfies QuizTypeId;
+export const DEFAULT_TYPE = "any" satisfies QuizTypeId;
