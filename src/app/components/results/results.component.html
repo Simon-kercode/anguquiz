@@ -1,8 +1,15 @@
-@if (current.questions() != null) {
-	<p>Congrats {{ profile.getProfile()?.firstName }} {{ profile.getProfile()?.lastName }}</p>
-	<p>
-		You answered {{ current.correctAnswerCount() }} correct answers out of
-		{{ current.questions()!.length }}
+<div class="flex h-screen flex-col items-center justify-center gap-4">
+	<h3 class="text-3xl font-semibold">{{ term() }}</h3>
+	<p class="text-gray-600">
+		{{ profile.getProfile()?.firstName }} {{ profile.getProfile()?.lastName }}
 	</p>
-	<button (click)="restart()">Restart</button>
-}
+	<p class="text-xl">
+		You answered
+		<strong>{{ current.correctAnswerCount() }}</strong>
+		correct answers out of
+		<strong>{{ current.questions()?.length ?? 0 }}</strong>
+	</p>
+	<button class="min-w-32 rounded bg-blue-600 px-4 py-2 text-white" (click)="restart()">
+		Restart
+	</button>
+</div>
