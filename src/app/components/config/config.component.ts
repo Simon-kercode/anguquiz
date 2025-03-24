@@ -15,17 +15,17 @@ import { Profile } from '../../model/profile';
 export class ConfigComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
-  categories: string[] = [];
-  difficulties: string[] = [];
-  types: string[] = [];
+  categories: { id: number, name: string }[] = [];
+  difficulties: { id: string, name: string }[] = [];
+  types: { id: string, name: string }[] = [];
 
   config = {
-    name: null,
-    firstname: null,
+    firstName: "",
+    lastName: "",
     quantity: 5,
-    difficulty: 'Medium',
-    category: 'General Knowledge',
-    questionType: 'multiple'
+    difficulty: 'any',
+    category: 9,
+    type: 'any'
   };
 
   constructor(
@@ -50,12 +50,25 @@ export class ConfigComponent implements OnInit {
     this.profileSerice.setProfile(profile);
   }
 
+  updateConfig(): void {
+    
+    this.config = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      quantity: this.config.quantity,
+      difficulty: this.config.difficulty,
+      category: this.config.category,
+      type: this.config.type
+    }
+  }
+
   loadOptions(): void {
     this.apiService.getAllOptions().subscribe({
       next: (options: AllOptions) => {
-        this.categories = options.categories.map(category => category.name);
-        this.difficulties = options.difficulties.map(difficulty => difficulty.name);
-        this.types = options.types.map(type => type.name);
+        console.log(options)
+        this.categories = options.categories.map(category => ({ id: category.id, name: category.name }));
+        this.difficulties = options.difficulties.map(difficulty => ({ id: difficulty.id, name: difficulty.name }));
+        this.types = options.types.map(type => ({ id: type.id, name: type.name }));
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des options:', err);
@@ -64,7 +77,8 @@ export class ConfigComponent implements OnInit {
   }
 
   onSubmit() {
-    this.updateProfile()
+    this.updateProfile();
+    this.updateConfig();
     console.log('Configuration : ', this.config);
   }
 }
