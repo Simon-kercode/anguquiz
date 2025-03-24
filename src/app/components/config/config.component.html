@@ -1,0 +1,55 @@
+<div class="p-4 max-w-md mx-auto bg-white shadow rounded">
+    <h2 class="text-2xl font-bold mb-4">Configuration du Quiz</h2>
+
+    <form (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+        <label class="block font-semibold" for="name">Nom</label>
+        <input id="title" type="text" [(ngModel)]="config.name" name="name" required
+          class="w-full px-3 py-2 border rounded">
+    </div>
+
+    <div class="mb-3">
+        <label class="block font-semibold" for="firstname">Nom</label>
+        <input id="title" type="text" [(ngModel)]="config.firstname" name="firstname" required
+          class="w-full px-3 py-2 border rounded">
+    </div>
+
+      <div class="mb-3">
+        <label class="block font-semibold" for="quantity">Nombre de questions</label>
+        <input id="title" type="text" [(ngModel)]="config.quantity" name="quantity" required
+          class="w-full px-3 py-2 border rounded">
+      </div>
+  
+      <div class="mb-3">
+        <label class="block font-semibold" for="difficulty">Difficulté</label>
+        <select id="difficulty" [(ngModel)]="config.difficulty" name="difficulty"
+          class="w-full px-3 py-2 border rounded">
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label class="block font-semibold" for="category">Catégorie</label>
+        <select id="difficulty" [(ngModel)]="config.category" name="category"
+          class="w-full px-3 py-2 border rounded">
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="block font-semibold">Type de questions</label>
+        <div class="flex gap-4">
+          <label class="flex items-center">
+            <input type="radio" [(ngModel)]="config.questionType" name="questionType" value="multiple" class="mr-2">
+            Choix multiple
+          </label>
+          <label class="flex items-center">
+            <input type="radio" [(ngModel)]="config.questionType" name="questionType" value="truefalse" class="mr-2">
+            Vrai/Faux
+          </label>
+        </div>
+      </div>
+  
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Démarrer</button>
+    </form>
+  </div>
+  
