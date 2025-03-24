@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { AllOptions } from '../../service/api.service';
 import { ProfileService } from '../../service/profile.service';
-import { Profile } from '../../model/profile';
+import { CurrentQuizService } from '../../service/current-quiz.service';
+import { QuizDifficultyId } from '../../model/difficulty';
+import { QuizTypeId } from '../../model/type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-config',
@@ -29,46 +32,27 @@ export class ConfigComponent implements OnInit {
   };
 
   constructor(
-    private profileSerice: ProfileService,
-    private apiService: ApiService
+    private profileService: ProfileService,
+    private apiService: ApiService,
+    private currentQuizService: CurrentQuizService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.loadOptions();
-    const profile= this.profileSerice.getProfile();
+    const profile= this.profileService.getProfile();
     if (profile) {
       this.firstName = profile.firstName;
       this.lastName = profile.lastName; 
     }
   }
 
-  updateProfile(): void {
-    const profile: Profile = {
-      firstName: this.firstName,
-      lastName: this.lastName
-    }
-    this.profileSerice.setProfile(profile);
-  }
-
-  updateConfig(): void {
-    
-    this.config = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      quantity: this.config.quantity,
-      difficulty: this.config.difficulty,
-      category: this.config.category,
-      type: this.config.type
-    }
-  }
-
   loadOptions(): void {
     this.apiService.getAllOptions().subscribe({
       next: (options: AllOptions) => {
-        console.log(options)
-        this.categories = options.categories.map(category => ({ id: category.id, name: category.name }));
-        this.difficulties = options.difficulties.map(difficulty => ({ id: difficulty.id, name: difficulty.name }));
-        this.types = options.types.map(type => ({ id: type.id, name: type.name }));
+        this.categories = options.categories;
+        this.difficulties = options.difficulties;
+        this.types = options.types;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des options:', err);
@@ -77,8 +61,16 @@ export class ConfigComponent implements OnInit {
   }
 
   onSubmit() {
-    this.updateProfile();
-    this.updateConfig();
-    console.log('Configuration : ', this.config);
+    this.profileService.setProfile({
+      firstName: this.firstName,
+      lastName: this.lastName
+    });
+    this.currentQuizService.setParams({
+      amount: this.config.quantity,
+      category: this.config.category,
+      difficulty: this.config.difficulty as QuizDifficultyId,
+      type: this.config.type as QuizTypeId,
+    });
+    this.router.navigate(["quiz"]);
   }
 }
