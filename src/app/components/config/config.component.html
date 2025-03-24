@@ -3,7 +3,7 @@
 
 	<form (ngSubmit)="onSubmit()">
 		<div class="mb-3">
-			<label class="block font-semibold" for="lastName">Nom</label>
+			<label class="block font-semibold" for="lastName">Lastname</label>
 			<input
 				id="title"
 				type="text"
@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="mb-3">
-			<label class="block font-semibold" for="firstName">Prénom</label>
+			<label class="block font-semibold" for="firstName">Firstname</label>
 			<input
 				id="title"
 				type="text"
@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="mb-3">
-			<label class="block font-semibold" for="quantity">Nombre de questions</label>
+			<label class="block font-semibold" for="quantity">Number of questions</label>
 			<input
 				id="title"
 				type="number"
@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="mb-3">
-			<label class="block font-semibold" for="difficulty">Difficulté</label>
+			<label class="block font-semibold" for="difficulty">Difficulty</label>
 			<select
 				id="difficulty"
 				[(ngModel)]="config.difficulty"
@@ -53,7 +53,7 @@
 		</div>
 
 		<div class="mb-3">
-			<label class="block font-semibold" for="category">Catégorie</label>
+			<label class="block font-semibold" for="category">Category</label>
 			<select
 				id="difficulty"
 				[(ngModel)]="config.category"
@@ -67,7 +67,7 @@
 		</div>
 
 		<div class="mb-3">
-			<label class="block font-semibold">Type de questions</label>
+			<label class="block font-semibold">Questions type</label>
 			<div class="flex gap-4">
 				<label *ngFor="let type of types" class="flex items-center">
 					<input
