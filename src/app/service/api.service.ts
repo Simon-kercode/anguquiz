@@ -50,6 +50,24 @@ export class ApiService {
             .get<ApiGenerateResponse>(`${this.baseUrl}/api.php`, { params })
             .pipe(map((res) => res.results));
     }
+
+    getAllOptions(): Observable<AllOptions> {
+        // if we later need to wait for multiple observables:
+        // return forkJoin([categories$, additionalData$]).pipe(map(([categories, additionalData]) => ({ ... }));
+        return this.getCategories().pipe(
+            map((categories) => ({
+                categories,
+                difficulties: this.getDifficulties(),
+                types: this.getTypes(),
+            })),
+        );
+    }
+}
+
+export interface AllOptions {
+    categories: QuizCategory[];
+    difficulties: QuizDifficulty[];
+    types: QuizType[];
 }
 
 interface ApiCategoryResponse {
