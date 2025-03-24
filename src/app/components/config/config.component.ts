@@ -29,13 +29,13 @@ export class ConfigComponent implements OnInit {
   };
 
   constructor(
-    private profileSerice: ProfileService,
+    private profileService: ProfileService,
     private apiService: ApiService
   ) {}
 
   ngOnInit(): void {
     this.loadOptions();
-    const profile= this.profileSerice.getProfile();
+    const profile= this.profileService.getProfile();
     if (profile) {
       this.firstName = profile.firstName;
       this.lastName = profile.lastName; 
@@ -47,7 +47,7 @@ export class ConfigComponent implements OnInit {
       firstName: this.firstName,
       lastName: this.lastName
     }
-    this.profileSerice.setProfile(profile);
+    this.profileService.setProfile(profile);
   }
 
   updateConfig(): void {
@@ -65,10 +65,9 @@ export class ConfigComponent implements OnInit {
   loadOptions(): void {
     this.apiService.getAllOptions().subscribe({
       next: (options: AllOptions) => {
-        console.log(options)
-        this.categories = options.categories.map(category => ({ id: category.id, name: category.name }));
-        this.difficulties = options.difficulties.map(difficulty => ({ id: difficulty.id, name: difficulty.name }));
-        this.types = options.types.map(type => ({ id: type.id, name: type.name }));
+        this.categories = options.categories;
+        this.difficulties = options.difficulties;
+        this.types = options.types;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des options:', err);
