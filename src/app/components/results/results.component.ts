@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
     styleUrl: "./results.component.css",
 })
 export class ResultsComponent {
-    total = computed(() => this.current.questions?.length ?? 0);
+    total = computed(() => this.current.questions()?.length ?? 0);
     ratio = computed(() => {
         const correct = this.current.correctAnswerCount();
         const total = this.total();
