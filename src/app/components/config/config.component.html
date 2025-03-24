@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center min-h-screen">
     <div class="mx-auto max-w-md rounded bg-white p-4 shadow">
-        <h2 class="mb-4 text-2xl font-bold">Configuration du Quiz</h2>
+        <h2 class="mb-4 text-2xl font-bold">Quiz configuration</h2>
     
         <form (ngSubmit)="onSubmit()" #quizForm="ngForm">
         <div class="mb-3">
@@ -40,14 +40,20 @@
         <div class="mb-3">
             <label class="block font-semibold" for="quantity">Number of questions</label>
             <input
-            id="quantity"
-            type="number"
-            [(ngModel)]="config.quantity"
-            name="quantity"
-            required
-            class="w-full rounded border px-3 py-2"
+              id="quantity"
+              type="number"
+              [(ngModel)]="config.quantity"
+              name="quantity"
+              required
+              #quantityInput="ngModel"
+              class="w-full rounded border px-3 py-2"
+              min="5"
+              max="20"
             />
-        </div>
+            <div *ngIf="quantityInput.invalid" class="text-red-500 text-sm">
+              Le nombre de questions doit être compris entre 5 et 20.
+            </div>
+          </div>
     
         <div class="mb-3">
             <label class="block font-semibold" for="difficulty">Difficulty</label>
@@ -98,7 +104,7 @@
                 class="w-full rounded bg-blue-600 py-2 text-white"
                 [disabled]="quizForm.invalid"
             >
-                Démarrer
+                Start
             </button>
         </form>
     </div>    

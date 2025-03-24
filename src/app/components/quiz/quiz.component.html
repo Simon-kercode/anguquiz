@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center min-h-screen">
     <div *ngIf="quizService.isLoading(); else quizContent">
-        <p class="text-center text-lg font-semibold">Chargement des questions...</p>
+        <p class="text-center text-lg font-semibold">Questions loading...</p>
     </div>
 
     <ng-template #quizContent>
@@ -31,8 +31,8 @@
                 </div>
                 
                 <div class="flex justify-center items-center">
-                    <button *ngIf="!isAnswered" (click)="onSubmit()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Valider</button>
-                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Suivant</button>                    
+                    <button *ngIf="!isAnswered" (click)="onSubmit()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Validate</button>
+                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Next question !</button>                    
                 </div>
             </div>
         </div>
