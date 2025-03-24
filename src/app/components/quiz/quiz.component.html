@@ -1,1 +1,20 @@
-<p>quiz works!</p>
+<div *ngIf="quizService.isLoading(); else quizContent">
+    <p class="text-center text-lg font-semibold">Chargement des questions...</p>
+  </div>
+<div class="p-4 max-w-lg mx-auto bg-white shadow rounded">
+    <ng-template #quizContent>
+      <p class="text-lg font-semibold mb-2">
+        Question {{ quizService.currentQuestionIndex() + 1 }} / {{ quizService.questions()?.length }}
+      </p>
+      <p class="mb-4">{{ quizService.currentQuestion()?.question }}</p>
+  
+      <div class="flex flex-col gap-2">
+        <label *ngFor="let answer of (quizService.currentQuestion()?.incorrect_answers || []).concat(quizService.currentQuestion()?.correct_answer || []).sort()" class="flex items-center p-2 border rounded cursor-pointer">
+            <input type="radio" name="answer" [value]="answer" [(ngModel)]="selectedAnswer" class="mr-2">
+          {{ answer }}
+        </label>
+      </div>
+  
+      <button (click)="onSubmit()" [disabled]="!selectedAnswer" class="bg-blue-500 text-white py-2 rounded mt-4">Suivant</button>
+    </ng-template>
+  </div>
