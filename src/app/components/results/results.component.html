@@ -1,9 +1,9 @@
-<div class="flex h-screen flex-col items-center justify-center gap-4">
+<div class="flex h-screen flex-col items-center justify-center gap-4 mx-4">
 	<h3 class="text-3xl font-semibold">{{ term() }}</h3>
 	<p class="text-gray-600">
 		{{ profile.getProfile()?.firstName }} {{ profile.getProfile()?.lastName }}
 	</p>
-	<p class="text-xl">
+	<p class="text-lg">
 		You answered
 		<strong>{{ current.correctAnswerCount() }}</strong>
 		correct answers out of

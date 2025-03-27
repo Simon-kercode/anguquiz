@@ -1,5 +1,5 @@
-<div class="flex items-center justify-center min-h-screen">
-    <div class="mx-auto max-w-md rounded bg-white p-4 shadow">
+<div class="flex items-center justify-center min-h-screen mx-3">
+    <div class="mx-auto max-w-md rounded border bg-white p-4 shadow">
         <h2 class="mb-4 text-2xl font-bold">Quiz configuration</h2>
     
         <form (ngSubmit)="onSubmit()" #quizForm="ngForm">
@@ -101,7 +101,7 @@
     
             <button
                 type="submit"
-                class="w-full rounded bg-blue-600 py-2 text-white"
+                class="w-full rounded bg-blue-600 py-2 text-white mt-4"
                 [disabled]="quizForm.invalid"
             >
                 Start

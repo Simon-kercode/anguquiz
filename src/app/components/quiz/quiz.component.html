@@ -1,10 +1,10 @@
-<div class="flex items-center justify-center min-h-screen">
+<div class="flex items-center justify-center min-h-screen mx-3">
     <div *ngIf="quizService.isLoading(); else quizContent">
         <p class="text-center text-lg font-semibold">Questions loading...</p>
     </div>
 
     <ng-template #quizContent>
-        <div class="p-4 max-w-lg mx-auto bg-white shadow rounded bg-gray-200">
+        <div class="p-4 max-w-lg bg-white mx-auto border shadow rounded">
             <p class="text-lg font-semibold mb-2">
                 Question {{ quizService.currentQuestionIndex() + 1 }} / {{ quizService.questions()?.length }}
             </p>
