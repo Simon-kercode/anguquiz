@@ -17,32 +17,29 @@
 
 				<div class="mt-4 flex flex-col gap-2">
 					<label
-						*ngFor="
-							let answer of question.incorrect_answers
-								.concat(question.correct_answer)
-								.sort()
-						"
+						*ngFor="let answer of question.answers.sort(); index as i"
 						[ngClass]="{
 							'flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-2': true,
-							'bg-sky-500 text-white': !isAnswered && selectedAnswer === answer,
-							'border-green-500': isAnswered && answer === question.correct_answer,
+							'bg-sky-500 text-white': !isAnswered && selectedAnswers.has(i),
+							'border-green-500': isAnswered && question.correct.includes(i),
 							'bg-green-500 text-white':
 								isAnswered &&
-								selectedAnswer === answer &&
-								answer === question.correct_answer,
-							'border-rose-500': isAnswered && answer !== question.correct_answer,
+								selectedAnswers.has(i) &&
+								question.correct.includes(i),
+							'border-rose-500': isAnswered && !question.correct.includes(i),
 							'bg-rose-500 text-white':
 								isAnswered &&
-								selectedAnswer === answer &&
-								answer !== question.correct_answer,
+								selectedAnswers.has(i) &&
+								!question.correct.includes(i),
 						}"
 					>
 						<input
-							type="radio"
-							[value]="answer"
-							[(ngModel)]="selectedAnswer"
+							[type]="isMultiple() ? 'checkbox' : 'radio'"
+							(change)="setSelectedByEvent(i, $event)"
+							[value]="selectedAnswers.has(i)"
 							[disabled]="isAnswered"
 							class="h-4 w-4"
+							name="answer"
 						/>
 						{{ answer }}
 					</label>
@@ -52,7 +49,7 @@
 					<button
 						*ngIf="!isAnswered"
 						(click)="onSubmit()"
-						[disabled]="selectedAnswer == null"
+						[disabled]="selectedAnswers.size < 1"
 						class="mt-4 rounded bg-blue-500 px-4 py-2 text-white disabled:bg-gray-600 disabled:opacity-50"
 					>
 						Validate
