@@ -1,47 +1,71 @@
-<div class="flex items-center justify-center min-h-screen mx-3">
-    <div *ngIf="quizService.isLoading(); else quizContent">
-        <p class="text-center text-lg font-semibold">Questions loading...</p>
-    </div>
+<div class="mx-3 flex min-h-screen items-center justify-center">
+	<div *ngIf="quizService.isLoading(); else quizContent">
+		<p class="text-center text-lg font-semibold">Questions loading...</p>
+	</div>
 
-    <ng-template #quizContent>
-        <div class="p-4 max-w-lg bg-white mx-auto border shadow rounded">
-            <p class="text-lg font-semibold mb-2">
-                Question {{ quizService.currentQuestionIndex() + 1 }} / {{ quizService.questions()?.length }}
-            </p>
-            
-            <div *ngIf="quizService.currentQuestion() as question">
-                <div class="text-gray-500 mb-2">{{ question.category }}</div>
+	<ng-template #quizContent>
+		<div class="mx-auto max-w-lg rounded border bg-white p-4 shadow">
+			<p class="mb-2 text-lg font-semibold">
+				Question {{ quizService.currentQuestionIndex() + 1 }} /
+				{{ quizService.questions()?.length }}
+			</p>
 
-                <h2 class="text-lg font-semibold">{{ question.question }}</h2>
-    
-                <div class="flex flex-col gap-2 mt-4">
-                <label 
-                    *ngFor="let answer of question.incorrect_answers.concat(question.correct_answer).sort()" 
-                    [ngClass]="{
-                        'flex items-center py-2 px-4 gap-2 border-2 rounded-md cursor-pointer': true,
-                        'bg-sky-500 text-white': !isAnswered && selectedAnswer === answer,
-                        'border-green-500': isAnswered && answer === question.correct_answer,
-                        'bg-green-500 text-white': isAnswered && selectedAnswer === answer && answer === question.correct_answer,
-                        'border-rose-500': isAnswered && answer !== question.correct_answer,
-                        'bg-rose-500 text-white': isAnswered && selectedAnswer === answer && answer !== question.correct_answer,
-                    }"
-                >
-                    <input 
-                    type="radio" 
-                    [value]="answer" 
-                    [(ngModel)]="selectedAnswer"
-                    [disabled]="isAnswered" 
-                    class="w-4 h-4"
-                    />
-                    {{ answer }}
-                </label>
-                </div>
-                
-                <div class="flex justify-center items-center">
-                    <button *ngIf="!isAnswered" (click)="onSubmit()" [disabled]="selectedAnswer == null" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50 disabled:bg-gray-600">Validate</button>
-                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-800 text-white px-4 py-2 rounded">Next question !</button>                    
-                </div>
-            </div>
-        </div>
-    </ng-template>    
+			<div *ngIf="quizService.currentQuestion() as question">
+				<div class="mb-2 text-gray-500">{{ question.category }}</div>
+
+				<h2 class="text-lg font-semibold">{{ question.question }}</h2>
+
+				<div class="mt-4 flex flex-col gap-2">
+					<label
+						*ngFor="
+							let answer of question.incorrect_answers
+								.concat(question.correct_answer)
+								.sort()
+						"
+						[ngClass]="{
+							'flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-2': true,
+							'bg-sky-500 text-white': !isAnswered && selectedAnswer === answer,
+							'border-green-500': isAnswered && answer === question.correct_answer,
+							'bg-green-500 text-white':
+								isAnswered &&
+								selectedAnswer === answer &&
+								answer === question.correct_answer,
+							'border-rose-500': isAnswered && answer !== question.correct_answer,
+							'bg-rose-500 text-white':
+								isAnswered &&
+								selectedAnswer === answer &&
+								answer !== question.correct_answer,
+						}"
+					>
+						<input
+							type="radio"
+							[value]="answer"
+							[(ngModel)]="selectedAnswer"
+							[disabled]="isAnswered"
+							class="h-4 w-4"
+						/>
+						{{ answer }}
+					</label>
+				</div>
+
+				<div class="flex items-center justify-center">
+					<button
+						*ngIf="!isAnswered"
+						(click)="onSubmit()"
+						[disabled]="selectedAnswer == null"
+						class="mt-4 rounded bg-blue-500 px-4 py-2 text-white disabled:bg-gray-600 disabled:opacity-50"
+					>
+						Validate
+					</button>
+					<button
+						*ngIf="isAnswered"
+						(click)="nextQuestion()"
+						class="mt-4 rounded bg-gray-800 px-4 py-2 text-white"
+					>
+						Next question !
+					</button>
+				</div>
+			</div>
+		</div>
+	</ng-template>
 </div>

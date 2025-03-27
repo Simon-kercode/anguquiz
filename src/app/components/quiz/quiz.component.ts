@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrentQuizService } from '../../service/current-quiz.service';
-import { KnownQuestion } from '../../model/question';
 import { FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 
