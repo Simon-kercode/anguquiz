@@ -81,14 +81,28 @@ export class ApiService {
             })
             .pipe(
                 map((res) =>
-                    res.results.map<KnownQuestion>((q) => ({
-                        type: atob(q.type) as QuestionType,
-                        difficulty: atob(q.difficulty),
-                        category: atob(q.category),
-                        question: atob(q.question),
-                        correct_answer: atob(q.correct_answer),
-                        incorrect_answers: q.incorrect_answers.map(atob),
-                    })),
+                    res.results.map<KnownQuestion>((q) => {
+                        // Future-proof correct answers
+                        const correctTexts =
+                            "correct_answer" in q
+                                ? Array.isArray(q.correct_answer)
+                                    ? q.correct_answer.map(atob)
+                                    : [atob(q.correct_answer)]
+                                : q.correct_answers.map(atob);
+
+                        const answers = [...correctTexts, ...q.incorrect_answers.map(atob)];
+
+                        const correct = correctTexts.map((answer) => answers.indexOf(answer));
+
+                        return {
+                            type: atob(q.type) as QuestionType,
+                            difficulty: atob(q.difficulty),
+                            category: atob(q.category),
+                            question: atob(q.question),
+                            answers,
+                            correct,
+                        };
+                    }),
                 ),
             );
     }
@@ -113,5 +127,37 @@ interface ApiCategoryResponse {
 
 interface ApiGenerateResponse {
     response_code: number;
-    results: KnownQuestion[];
+    results: AllApiQuestion[];
+}
+
+type AllApiQuestion =
+    | ApiQuestionBaseCurrent
+    | ApiQuestionBaseMultiAnswerV1
+    | ApiQuestionBaseMultiAnswerV2;
+
+interface ApiQuestionBaseCurrent {
+    type: string;
+    difficulty: string;
+    category: string;
+    question: string;
+    correct_answer: string;
+    incorrect_answers: string[];
+}
+
+interface ApiQuestionBaseMultiAnswerV1 {
+    type: string;
+    difficulty: string;
+    category: string;
+    question: string;
+    correct_answer: string[];
+    incorrect_answers: string[];
+}
+
+interface ApiQuestionBaseMultiAnswerV2 {
+    type: string;
+    difficulty: string;
+    category: string;
+    question: string;
+    correct_answers: string[];
+    incorrect_answers: string[];
 }

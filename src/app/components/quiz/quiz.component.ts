@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, computed, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { CurrentQuizService } from "../../service/current-quiz.service";
 import { FormsModule } from "@angular/forms";
@@ -11,31 +11,50 @@ import { Router } from "@angular/router";
     templateUrl: "./quiz.component.html",
     styleUrl: "./quiz.component.css",
 })
-export class QuizComponent implements OnInit {
-    selectedAnswer: string | null = null;
+export class QuizComponent {
+    selectedAnswers: Set<number> = new Set();
     isAnswered: boolean = false;
+    isMultiple = computed(() => (this.quizService.currentQuestion()?.correct.length ?? 0) > 1);
 
     constructor(
         public quizService: CurrentQuizService,
         private router: Router,
     ) {}
 
-    ngOnInit(): void {
-        if (!this.quizService.questions()) {
-            console.error("quiz non initialisé !");
+    setSelectedByEvent(index: number, event: Event) {
+        this.setSelected(index, (event.target as HTMLInputElement).checked);
+    }
+
+    setSelected(index: number, selected: boolean) {
+        if (this.isAnswered) return;
+
+        if (selected) {
+            if (this.isMultiple()) {
+                this.selectedAnswers.add(index);
+            } else {
+                this.selectedAnswers = new Set([index]);
+            }
+        } else {
+            this.selectedAnswers.delete(index);
         }
     }
 
     onSubmit() {
-        if (!this.selectedAnswer) return;
+        if (this.selectedAnswers.size < 1) return;
+
         this.isAnswered = true;
-        if (this.selectedAnswer === this.quizService.currentQuestion()?.correct_answer) {
+
+        const isCorrect = this.quizService
+            .currentQuestion()
+            ?.correct.every((idx) => this.selectedAnswers.has(idx));
+
+        if (isCorrect) {
             this.quizService.incrementCorrectAnswers();
         }
     }
 
     nextQuestion() {
-        this.selectedAnswer = null;
+        this.selectedAnswers = new Set();
         this.isAnswered = false;
         this.quizService.next();
 

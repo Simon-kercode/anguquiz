@@ -3,8 +3,8 @@ export interface QuestionBase {
     difficulty: string;
     category: string;
     question: string;
-    correct_answer: string;
-    incorrect_answers: string[];
+    answers: string[];
+    correct: number[];
 }
 
 export interface BooleanQuestion extends QuestionBase {
