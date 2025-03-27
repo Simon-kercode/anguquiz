@@ -9,7 +9,7 @@ import {
     QuizDifficultyId,
 } from "../model/difficulty";
 import { DEFAULT_TYPE, QuizType, QuizTypeId, TYPES } from "../model/type";
-import { KnownQuestion } from "../model/question";
+import { KnownQuestion, QuestionType } from "../model/question";
 
 @Injectable({
     providedIn: "root",
@@ -60,7 +60,7 @@ export class ApiService {
     getQuestions(params: Params): Observable<KnownQuestion[]> {
         const { amount, category, difficulty, type } = params;
 
-        let httpParams = new HttpParams();
+        let httpParams = new HttpParams().set("encode", "base64");
 
         if (amount != null) {
             httpParams = httpParams.set("amount", amount);
@@ -79,7 +79,18 @@ export class ApiService {
             .get<ApiGenerateResponse>(`${this.baseUrl}/api.php`, {
                 params: httpParams,
             })
-            .pipe(map((res) => res.results));
+            .pipe(
+                map((res) =>
+                    res.results.map<KnownQuestion>((q) => ({
+                        type: atob(q.type) as QuestionType,
+                        difficulty: atob(q.difficulty),
+                        category: atob(q.category),
+                        question: atob(q.question),
+                        correct_answer: atob(q.correct_answer),
+                        incorrect_answers: q.incorrect_answers.map(atob),
+                    })),
+                ),
+            );
     }
 }
 
