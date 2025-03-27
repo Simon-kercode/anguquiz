@@ -10,29 +10,36 @@
             </p>
             
             <div *ngIf="quizService.currentQuestion() as question">
+                <div class="text-gray-500 mb-2">{{ question.category }}</div>
+
                 <h2 class="text-lg font-semibold">{{ question.question }}</h2>
     
                 <div class="flex flex-col gap-2 mt-4">
                 <label 
                     *ngFor="let answer of question.incorrect_answers.concat(question.correct_answer).sort()" 
-                    class="flex items-center p-2 border rounded cursor-pointer"
-                    [class.bg-green-300]="isAnswered && answer === question.correct_answer"
-                    [class.bg-red-300]="isAnswered && answer !== question.correct_answer"
+                    [ngClass]="{
+                        'flex items-center py-2 px-4 gap-2 border-2 rounded-md cursor-pointer': true,
+                        'bg-sky-500 text-white': !isAnswered && selectedAnswer === answer,
+                        'border-green-500': isAnswered && answer === question.correct_answer,
+                        'bg-green-500 text-white': isAnswered && selectedAnswer === answer && answer === question.correct_answer,
+                        'border-rose-500': isAnswered && answer !== question.correct_answer,
+                        'bg-rose-500 text-white': isAnswered && selectedAnswer === answer && answer !== question.correct_answer,
+                    }"
                 >
                     <input 
                     type="radio" 
                     [value]="answer" 
                     [(ngModel)]="selectedAnswer"
                     [disabled]="isAnswered" 
-                    class="mr-5"
+                    class="w-4 h-4"
                     />
                     {{ answer }}
                 </label>
                 </div>
                 
                 <div class="flex justify-center items-center">
-                    <button *ngIf="!isAnswered" (click)="onSubmit()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Validate</button>
-                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Next question !</button>                    
+                    <button *ngIf="!isAnswered" (click)="onSubmit()" [disabled]="selectedAnswer == null" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50 disabled:bg-gray-600">Validate</button>
+                    <button *ngIf="isAnswered" (click)="nextQuestion()" class="mt-4 bg-gray-800 text-white px-4 py-2 rounded">Next question !</button>                    
                 </div>
             </div>
         </div>
