@@ -85,7 +85,7 @@
     
         <div class="mb-3">
             <label class="block font-semibold">Questions type</label>
-            <div class="flex gap-4">
+            <div class="flex gap-x-4 sm:flex-row flex-col py-2">
             <label *ngFor="let type of types" class="flex items-center">
                 <input
                 type="radio"
@@ -101,7 +101,7 @@
     
             <button
                 type="submit"
-                class="w-full rounded bg-blue-600 py-2 text-white mt-4"
+                class="w-full rounded bg-blue-600 py-2 text-white disabled:opacity-50 disabled:bg-gray-600"
                 [disabled]="quizForm.invalid"
             >
                 Start

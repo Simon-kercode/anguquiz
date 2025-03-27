@@ -27,12 +27,6 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  onSelectAnswer(answer: string) {
-    if (!this.isAnswered) {
-      this.selectedAnswer = answer;
-    }
-  }
-
   onSubmit() {
     if (!this.selectedAnswer) return;
     this.isAnswered = true;
