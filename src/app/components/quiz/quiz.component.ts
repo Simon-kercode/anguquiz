@@ -1,4 +1,4 @@
-import { Component, computed, effect } from "@angular/core";
+import { Component, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { CurrentQuizService } from "../../service/current-quiz.service";
 import { FormsModule } from "@angular/forms";
@@ -12,8 +12,8 @@ import { Router } from "@angular/router";
     styleUrl: "./quiz.component.css",
 })
 export class QuizComponent {
-    selectedAnswers: Set<number> = new Set();
-    isAnswered: boolean = false;
+    selectedAnswers = new Set<number>();
+    isAnswered = false;
     isMultiple = computed(() => (this.quizService.currentQuestion()?.correct.length ?? 0) > 1);
 
     constructor(
@@ -46,7 +46,7 @@ export class QuizComponent {
 
         const isCorrect = this.quizService
             .currentQuestion()
-            ?.correct.every((idx) => this.selectedAnswers.has(idx));
+            ?.correct.every((idx) => this.selectedAnswers.has(idx)) ?? false;
 
         if (isCorrect) {
             this.quizService.incrementCorrectAnswers();

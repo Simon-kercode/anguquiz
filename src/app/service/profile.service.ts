@@ -7,8 +7,6 @@ import { Profile } from "../model/profile";
 export class ProfileService {
     private profile = signal<Profile | undefined>(undefined);
 
-    constructor() {}
-
     setProfile(profile?: Profile | null) {
         this.profile.set(profile ?? undefined);
     }

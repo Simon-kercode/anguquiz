@@ -16,8 +16,8 @@ import { Router } from "@angular/router";
     styleUrl: "./config.component.css",
 })
 export class ConfigComponent implements OnInit {
-    firstName: string = "";
-    lastName: string = "";
+    firstName = "";
+    lastName = "";
     categories: { id: number; name: string }[] = [];
     difficulties: { id: string; name: string }[] = [];
     types: { id: string; name: string }[] = [];
