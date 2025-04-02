@@ -12,7 +12,7 @@ export class CurrentQuizService {
     private readonly _params = signal<Params | undefined>(undefined);
     private readonly _loading = signal(false);
 
-    constructor(private apiService: ApiService) {
+    constructor(apiService: ApiService) {
         effect(() => {
             const params = this._params();
             this._questions.set(undefined);

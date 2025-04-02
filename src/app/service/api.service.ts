@@ -29,21 +29,23 @@ export class ApiService {
         return Object.values(DIFFICULTIES);
     }
 
-    getDifficulty(id: QuizDifficultyId): QuizDifficulty;
-    getDifficulty(id?: QuizDifficultyId | (string & {}) | null): QuizDifficulty | undefined;
-    getDifficulty(id?: QuizDifficultyId | (string & {}) | null) {
-        return DIFFICULTIES[id as QuizDifficultyId];
-    }
+    // NOTE: could be used later
+    // getDifficulty(id: QuizDifficultyId): QuizDifficulty;
+    // getDifficulty(id?: QuizDifficultyId | (string & {}) | null): QuizDifficulty | undefined;
+    // getDifficulty(id?: QuizDifficultyId | (string & {}) | null) {
+    //     return DIFFICULTIES[id as QuizDifficultyId];
+    // }
 
     getTypes() {
         return Object.values(TYPES);
     }
 
-    getType(id: QuizTypeId): QuizType;
-    getType(id?: QuizTypeId | (string & {}) | null): QuizType | undefined;
-    getType(id?: QuizTypeId | (string & {}) | null) {
-        return TYPES[id as QuizTypeId];
-    }
+    // NOTE: could be used later
+    // getType(id: QuizTypeId): QuizType;
+    // getType(id?: QuizTypeId | (string & {}) | null): QuizType | undefined;
+    // getType(id?: QuizTypeId | (string & {}) | null) {
+    //     return TYPES[id as QuizTypeId];
+    // }
 
     getAllOptions(): Observable<AllOptions> {
         // if we later need to wait for multiple observables:
