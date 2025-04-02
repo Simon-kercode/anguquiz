@@ -18,6 +18,7 @@ import { Router } from "@angular/router";
 export class ConfigComponent implements OnInit {
     firstName = "";
     lastName = "";
+    loading = true;
     categories: { id: number; name: string }[] = [];
     difficulties: { id: string; name: string }[] = [];
     types: { id: string; name: string }[] = [];
@@ -48,11 +49,13 @@ export class ConfigComponent implements OnInit {
     }
 
     loadOptions(): void {
+        this.loading = true;
         this.apiService.getAllOptions().subscribe({
             next: (options: AllOptions) => {
                 this.categories = options.categories;
                 this.difficulties = options.difficulties;
                 this.types = options.types;
+                this.loading = false;
             },
             error: (err) => {
                 console.error("Erreur lors de la récupération des options:", err);
