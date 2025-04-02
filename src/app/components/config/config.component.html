@@ -19,12 +19,12 @@
 					*ngIf="lastNameInput.invalid && lastNameInput.touched"
 					class="text-sm text-red-500"
 				>
-					Le nom est requis.
+					First name is required.
 				</div>
 			</div>
 
 			<div class="mb-3">
-				<label class="block font-semibold" for="firstName">Firstname</label>
+				<label class="block font-semibold" for="firstName">First name</label>
 				<input
 					id="firstName"
 					type="text"
@@ -39,7 +39,7 @@
 					*ngIf="firstNameInput.invalid && firstNameInput.touched"
 					class="text-sm text-red-500"
 				>
-					Le prénom est requis.
+					Last name is required
 				</div>
 			</div>
 
@@ -57,7 +57,7 @@
 					max="20"
 				/>
 				<div *ngIf="quantityInput.invalid" class="text-sm text-red-500">
-					Le nombre de questions doit être compris entre 5 et 20.
+					The number of questions must be between 5 and 20.
 				</div>
 			</div>
 
@@ -90,7 +90,7 @@
 			</div>
 
 			<div class="mb-3">
-				<div class="block font-semibold">Questions type</div>
+				<div class="block font-semibold">Question type</div>
 				<div class="flex flex-col gap-x-4 py-2 sm:flex-row">
 					<label *ngFor="let type of types" class="flex items-center">
 						<input
