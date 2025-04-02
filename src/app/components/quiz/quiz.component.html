@@ -4,7 +4,7 @@
 	</div>
 
 	<ng-template #quizContent>
-		<div class="mx-auto max-w-lg rounded border bg-white p-4 shadow">
+		<div class="mx-auto min-w-80 max-w-lg rounded border bg-white p-4 shadow">
 			<p class="mb-2 text-lg font-semibold">
 				Question {{ quizService.currentQuestionIndex() + 1 }} /
 				{{ quizService.questions()?.length }}
@@ -20,14 +20,13 @@
 						*ngFor="let answer of question.answers.sort(); index as i"
 						[ngClass]="{
 							'flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-2': true,
-							'bg-sky-500 text-white': !isAnswered && selectedAnswers.has(i),
+							'border-blue-500': !isAnswered && selectedAnswers.has(i),
 							'border-green-500': isAnswered && question.correct.includes(i),
 							'bg-green-500 text-white':
 								isAnswered &&
 								selectedAnswers.has(i) &&
 								question.correct.includes(i),
-							'border-rose-500': isAnswered && !question.correct.includes(i),
-							'bg-rose-500 text-white':
+							'border-rose-500 bg-rose-500 text-white':
 								isAnswered &&
 								selectedAnswers.has(i) &&
 								!question.correct.includes(i),
